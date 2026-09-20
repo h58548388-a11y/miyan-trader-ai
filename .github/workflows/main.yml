@@ -1,10 +1,10 @@
-name: MIYAN Trader Data Update
+name: MIYAN Trader Data Test
 
 on:
   workflow_dispatch:
 
 jobs:
-  test-api:
+  test-data:
     runs-on: ubuntu-latest
 
     steps:
