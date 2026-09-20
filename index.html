@@ -1,54 +1,119 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MIYAN TRADER AI</title>
 
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;background:#061116;color:#eafcff;
- 
- font-family:Arial,sans-serif
+*{
+  box-sizing:border-box;
 }
-.app{max-width:520px;margin:auto;padding:18px}
-.brand{text-align:center;margin:10px 0 22px}
-.brand h1{margin:0;color:#2ce5d3;font-size:28px}
-.brand p{margin:6px;color:#7f969e;font-size:12px;letter-spacing:2px}
 
-.tabs{display:flex;gap:8px;margin-bottom:18px}
-.tab{
- flex:1;padding:11px 4px;border:1px solid #18353d;
- background:#0a1a20;color:#8fa7ae;border-radius:8px;font-weight:bold
+body{
+  margin:0;
+  background:#041014;
+  color:#eaffff;
+  font-family:Arial,sans-serif;
 }
-.tab.active{background:#12363a;color:#35e6d5;border-color:#28a99f}
+
+.app{
+  width:100%;
+  max-width:520px;
+  margin:auto;
+  padding:18px;
+}
+
+.brand{
+  text-align:center;
+  padding:18px 0 20px;
+}
+
+.brand h1{
+  margin:0;
+  font-size:30px;
+  color:#30e6d1;
+  letter-spacing:1px;
+  text-shadow:0 0 18px rgba(48,230,209,.25);
+}
+
+.brand p{
+  margin:7px 0 0;
+  color:#708d93;
+  font-size:11px;
+  letter-spacing:3px;
+}
+
+.live{
+  display:inline-block;
+  margin-top:12px;
+  padding:6px 12px;
+  border:1px solid #174e4d;
+  border-radius:20px;
+  color:#42ddcf;
+  font-size:11px;
+}
+
+.tabs{
+  display:flex;
+  gap:7px;
+  margin-bottom:16px;
+}
+
+.tab{
+  flex:1;
+  border:1px solid #17353b;
+  background:#09191e;
+  color:#7e999f;
+  border-radius:9px;
+  padding:11px 3px;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.tab.active{
+  background:#0c302f;
+  color:#39e3d1;
+  border-color:#248f88;
+}
 
 .card{
- background:#09181e;border:1px solid #17343c;
- border-radius:14px;padding:16px;margin-bottom:15px
+  background:#07181d;
+  border:1px solid #15343a;
+  border-radius:15px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 8px 30px rgba(0,0,0,.25);
 }
-label{display:block;color:#718990;font-size:11px;margin-bottom:7px}
+
+label{
+  display:block;
+  color:#729096;
+  font-size:11px;
+  margin-bottom:7px;
+  letter-spacing:1px;
+}
+
 select{
- width:100%;background:#0d2027;color:white;border:1px solid #24434b;
- padding:13px;border-radius:8px;font-size:16px
+  width:100%;
+  padding:14px;
+  background:#061217;
+  border:1px solid #205159;
+  color:white;
+  border-radius:9px;
+  outline:none;
+  font-size:15px;
 }
 
-.times{display:flex;gap:8px;margin-top:14px}
+.times{
+  display:flex;
+  gap:8px;
+  margin-top:14px;
+}
+
 .tf{
- flex:1;padding:9px;background:#0b1c22;color:#839ba2;
- border:1px solid #1c3941;border-radius:7px
-}
-.tf.active{color:#32e5d3;border-color:#2ba99f;background:#103238}
-
-.status{text-align:center;padding:30px 10px}
-#signal{font-size:27px;font-weight:900;color:#84979d}
-#price{margin-top:10px;color:#81969d}
-
-.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.metric{
- text-align:center;background:#0b1d23;border:1px solid #183840;
- border-radius:9px;padding:12px 5px
-}
-.metric span{display:block;font-size:10px;color:#728990}
-.metric b{display:block;margin-top:7px;color:#e
+  flex:1;
+  padding:10px;
+  border:1px solid #183a40;
+  border-radius:8px;
+  background:#091a20;
