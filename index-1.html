@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#070b14" />
+  <title>MIYAN TRADER AI</title>
+  <style>
+    :root{--bg:#070b14;--card:#101827;--line:#26334a;--gold:#f7c948;--text:#f7f9fc;--muted:#9ca9bc;--green:#27d17f;--red:#ff5570}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -10%,#20304b 0,#0b111d 38%,var(--bg) 75%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    .app{width:min(100%,520px);margin:auto;padding:24px 18px 42px}.brand{text-align:center;margin:8px 0 24px}.lion{width:82px;height:82px;margin:auto;display:grid;place-items:center;border-radius:50%;font-size:45px;background:linear-gradient(145deg,#fce58b,#c58a13);box-shadow:0 0 34px #f7c94842;border:2px solid #ffe98b}.brand h1{font-size:25px;letter-spacing:1.6px;margin:13px 0 4px}.brand h1 span{color:var(--gold)}.brand p{margin:0;color:var(--muted);font-size:13px}
+    .card{background:#101827e8;border:1px solid var(--line);border-radius:22px;padding:19px;box-shadow:0 16px 50px #0007;backdrop-filter:blur(10px)}label{display:block;font-size:12px;font-weight:800;color:#c5cede;letter-spacing:.7px;margin:17px 0 8px}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.tab{border:1px solid var(--line);background:#151f31;color:#b9c4d5;border-radius:11px;padding:11px 4px;font-weight:800;cursor:pointer}.tab.active{color:#15100a;background:linear-gradient(135deg,#ffe37b,#eaae2c);border-color:#ffe37b}
+    select{width:100%;appearance:none;background:#151f31;color:white;border:1px solid var(--line);border-radius:12px;padding:14px;font-size:15px;outline:none}.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.analyze{width:100%;border:0;border-radius:14px;margin-top:22px;padding:16px;background:linear-gradient(135deg,#ffe477,#e5a91d);color:#171109;font-size:16px;font-weight:900;letter-spacing:.8px;cursor:pointer;box-shadow:0 9px 24px #d8a72433}.analyze:disabled{opacity:.65;cursor:wait}
+    .result{display:none;margin-top:17px;border:1px solid var(--line);border-radius:16px;padding:17px;text-align:center;background:#0c1320}.result.show{display:block}.result .signal{font-size:29px;font-weight:950;margin:5px}.signal.up{color:var(--green)}.signal.down{color:var(--red)}.signal.none{color:var(--gold)}.meta{font-size:12px;color:var(--muted);line-height:1.6}.status{min-height:21px;margin:12px 0 -4px;text-align:center;color:var(--muted);font-size:12px}.foot{text-align:center;color:#748096;font-size:11px;line-height:1.55;margin-top:17px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px;box-shadow:0 0 10px var(--green)}
+    @media(max-width:360px){.app{padding-left:12px;padding-right:12px}.card{padding:15px}.brand h1{font-size:22px}}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="brand"><div class="lion" aria-label="Miyan Trader lion">🦁</div><h1>MIYAN TRADER <span>AI</span></h1><p><span class="dot"></span>Smart Market Signal Analyzer</p></header>
+    <section class="card">
+      <label>SELECT MARKET</label>
+      <div class="tabs" id="tabs"><button class="tab active" data-market="OTC">OTC</button><button class="tab" data-market="FOREX">FOREX</button><button class="tab" data-market="CRYPTO">CRYPTO</button></div>
+      <div class="grid">
+        <div><label for="pair">TRADING PAIR</label><select id="pair"></select></div>
+        <div><label for="timeframe">TIMEFRAME</label><select id="timeframe"><option value="1m">1 Minute</option><option value="5m">5 Minutes</option><option value="15m">15 Minutes</option></select></div>
+      </div>
+      <button class="analyze" id="analyze">⚡ ANALYZE MARKET</button>
+      <div class="status" id="status">Select a pair and tap Analyze</div>
+      <div class="result" id="result"><div class="meta" id="resultPair"></div><div class="signal none" id="signal">NO TRADE</div><div class="meta" id="details"></div></div>
+    </section>
+    <p class="foot">AI analysis is educational only. Trading involves risk—always use risk management.<br>© MIYAN TRADER AI</p>
+  </main>
+  <script>
+    const API_URL='https://miyan-trader-ai-api.h58548388.workers.dev/';
+    const pairs={OTC:['EUR/USD OTC','GBP/USD OTC','USD/JPY OTC','AUD/CAD OTC','USD/PKR OTC'],FOREX:['XAU/USD','EUR/USD','GBP/USD','USD/JPY','AUD/USD'],CRYPTO:['BTC/USDT','ETH/USDT','SOL/USDT','BNB/USDT','SHIB/USDT']};
+    let market='OTC'; const pair=document.querySelector('#pair'),status=document.querySelector('#status'),result=document.querySelector('#result'),signal=document.querySelector('#signal'),details=document.querySelector('#details'),btn=document.querySelector('#analyze');
+    function fillPairs(){pair.innerHTML=pairs[market].map(x=>`<option value="${x}">${x}</option>`).join('')}; fillPairs();
+    document.querySelector('#tabs').addEventListener('click',e=>{if(!e.target.dataset.market)return;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));e.target.classList.add('active');market=e.target.dataset.market;fillPairs();result.classList.remove('show');status.textContent='Select a pair and tap Analyze'});
+    function normalize(data){const raw=String(data.signal||data.direction||data.result||data.prediction||'').toUpperCase();if(raw.includes('UP')||raw.includes('BUY'))return'UP';if(raw.includes('DOWN')||raw.includes('SELL'))return'DOWN';return'NO TRADE'}
+    btn.addEventListener('click',async()=>{btn.disabled=true;btn.textContent='ANALYZING…';status.textContent='AI is checking the market…';result.classList.remove('show');try{const payload={market,pair:pair.value,timeframe:document.querySelector('#timeframe').value};const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});if(!res.ok)throw new Error('Server returned '+res.status);let data;const text=await res.text();try{data=JSON.parse(text)}catch{data={signal:text}}const out=normalize(data);signal.textContent=out==='UP'?'▲ UP':out==='DOWN'?'▼ DOWN':'● NO TRADE';signal.className='signal '+(out==='UP'?'up':out==='DOWN'?'down':'none');document.querySelector('#resultPair').textContent=payload.pair+' • '+payload.timeframe.toUpperCase();details.textContent=data.confidence?`AI confidence: ${data.confidence}${String(data.confidence).includes('%')?'':'%'}`:(data.message||'Analysis completed');result.classList.add('show');status.textContent='Analysis complete'}catch(err){signal.textContent='● NO TRADE';signal.className='signal none';document.querySelector('#resultPair').textContent=pair.value;details.textContent='API is not responding. Please try again in a moment.';result.classList.add('show');status.textContent='Connection error — screen is working safely';console.error(err)}finally{btn.disabled=false;btn.textContent='⚡ ANALYZE MARKET'}});
+  </script>
+</body>
+</html>
