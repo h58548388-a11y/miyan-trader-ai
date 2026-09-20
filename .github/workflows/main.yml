@@ -1,0 +1,15 @@
+name: MIYAN Trader Data Update
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test Twelve Data API
+        env:
+          TWELVEDATA_API_KEY: ${{ secrets.TWELVEDATA_API_KEY }}
+        run: |
+          curl -s "https://api.twelvedata.com/time_series?symbol=EUR/USD&interval=5min&outputsize=5&apikey=${TWELVEDATA_API_KEY}"
